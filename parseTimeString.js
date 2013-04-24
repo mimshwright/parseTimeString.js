@@ -22,10 +22,8 @@
  * </p>
  *
  * <p><em>
- * †: Frames are interpereted based on the framerate of the parser. They are not recommended 
- *    because of their inaccuracy and should be considered deprecated. If you must use the frames 
- *    option, please make sure you have set the frameRate to match the actual frame rate of 
- *    the swf in the constuctor.
+ * †: Frames are interpereted based on the framerate you provide to
+ *    the funciton. By default, 30fps is used.
  * </em></p>
  *
  * @param {String} timeString a string representing some ammount of time.
