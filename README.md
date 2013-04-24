@@ -31,4 +31,4 @@ Usage
 Contribute
 ==========
 
-All contributions are welcome but you must add a QUnit test case in `test.html` for any new functionality.
+All contributions are welcome but you must add a QUnit test case in `[test.html](http://htmlpreview.github.io/?https://github.com/mimshwright/parseTimeString.js/master/test.html)` for any new functionality.
