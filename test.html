@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>parseTimeString() tests</title>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="parseTimeString.js"></script>
+  <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+  <script>
+  test ("Function exists", function () {
+  	ok(parseTimeString, "parseTimeString() exists");
+  });
+
+  test("Numbers are not processed.", function () {
+  	equal (parseTimeString(12345), 12345, "Passing a number returns the number.");
+  });
+
+  test( "Basic time strings", function () {
+  	equal (parseTimeString("3000ms"), 3000, "milliseconds");
+  	equal (parseTimeString("3sec"), 3000, "seconds");
+  	equal (parseTimeString("1 min"), 60*1000, "minutes");
+  	equal (parseTimeString("1 hr"), 60*60*1000, "hours");
+  	equal (parseTimeString("1 day"), 24*60*60*1000, "days");
+  });
+
+  test ("Many variations on time strings will work.", function () {
+  	equal (parseTimeString("3s"), 3000, "s");
+  	equal (parseTimeString("3 sec"), 3000, "sec");
+  	equal (parseTimeString("3 secs"), 3000, "secs");
+  	equal (parseTimeString("3 second"), 3000, "second");
+  	equal (parseTimeString("3 seconds"), 3000, "seconds");
+  });
+
+  test ("Frames can be parsed and are handled based on the framerate parameter", function () {
+	equal (parseTimeString("30fr"), 1000, "Default frame rate is 30");
+  	equal (parseTimeString("24fr", 24), 1000, "Frame rate can be set as second parameter.");
+  	equal (parseTimeString("29.9997fr", 29.9997), 1000, "Framerates can be non-standard.");
+ 	equal (parseTimeString("5sec,12fr", 24), 5500, "Frames can be combined with other units.");
+  });
+
+  test ("Timecode Format", function (){
+  	equal (parseTimeString("01:23:45"), 3600000 + 23*60000 + 45*1000, "Basic timecode format, HH:MM:SS");
+  	equal (parseTimeString("01:23:45;15"), 3600000 + 23*60000 + 45*1000 + 500, "Basic timecode format plus frames, HH:MM:SS;FF");
+ 	equal (parseTimeString(":03"), 3000, "Seconds only.");
+  });
+
+  test ("Other cases", function () {
+ 	equal (parseTimeString("5 milliseconds, 15mins, 6 hrs"), 6*3600000 + 15*60000 + 5, "Units can be totally out of order");
+ 	equal (parseTimeString("0.25 days"), 24/4*3600000, "decimal values work.");
+ 	equal (parseTimeString("-5s"), -5000, "Negative values work");
+
+  	equal (parseTimeString("1 hour, 2 minutes, 3 seconds, 4 milliseconds"), 3600000 + 2*60000 + 3*1000 + 4, "Long form, comma separated: 1 hour, 2 minutes, 3 seconds, 4 milliseconds");
+ 	equal (parseTimeString("1h2m3s4ms"), 3600000 + 2*60000 + 3*1000 + 4, "Short form, not separated: 1h2m3s4ms");
+  });
+  </script>
+</body>
+</html>
